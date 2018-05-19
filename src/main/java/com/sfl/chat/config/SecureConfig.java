@@ -37,10 +37,19 @@ public class SecureConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .cors()
-            .and()
+            .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/", "/resources/**").permitAll()
-            .anyRequest().authenticated();
+            .antMatchers("/", "/signin", "/signout", "/css/**", "/js/**", "/images/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .usernameParameter("username")
+            .passwordParameter("password")
+            .loginPage("/signin")
+            .loginProcessingUrl("/signin");
+            //.defaultSuccessUrl("/homepage.html")
+            //.failureUrl("/login.html?error=true")
+            //.and()
+            //.logout().logoutSuccessUrl("/login.html");
     }
 }
