@@ -31,7 +31,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class User extends BaseEntity implements UserDetails  {
 
     @NotNull
-    @Size(max = 50)
+    @Size(min = 1, max = 50)
     @Column(name = "username", nullable = false, unique = true, length = 50)
     private String username;
 
