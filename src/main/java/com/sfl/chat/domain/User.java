@@ -173,7 +173,7 @@ public class User extends BaseEntity implements UserDetails  {
         return firstName;    
     }
 
-    public void setFirstname(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -181,7 +181,7 @@ public class User extends BaseEntity implements UserDetails  {
         return lastName;    
     }
 
-    public void setLastname(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -189,7 +189,7 @@ public class User extends BaseEntity implements UserDetails  {
         return pictureFileName;    
     }
 
-    public void setPicutreFileName(String pictureFileName) {
+    public void setPictureFileName(String pictureFileName) {
         this.pictureFileName = pictureFileName;
     }
   
