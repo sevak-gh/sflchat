@@ -28,10 +28,4 @@ public class HomeController {
         LOG.debug("home controller...");
         return "index";
     }
-
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile(Model model) {
-        return "profile";
-    }
-
 }

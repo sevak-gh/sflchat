@@ -59,6 +59,20 @@ public class User extends BaseEntity implements UserDetails  {
     @Column(name = "locked", nullable = false)
     private boolean locked = false;
 
+    @NotNull
+    @Size(max = 50)
+    @Column(name = "first_name", nullable = false, length = 50)
+    private String firstName;
+
+    @NotNull
+    @Size(max = 50)
+    @Column(name = "last_name", nullable = false, length = 50)
+    private String lastName;
+
+    @Size(max = 100)
+    @Column(name = "picture_file_name", nullable = true, length = 100)
+    private String pictureFileName;
+
     @Transient
     private boolean accountNonExpired = true;
 
@@ -155,6 +169,30 @@ public class User extends BaseEntity implements UserDetails  {
         this.authorities = authorities;
     }
 
+    public String getFirstName() {  
+        return firstName;    
+    }
+
+    public void setFirstname(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {  
+        return lastName;    
+    }
+
+    public void setLastname(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPictureFileName() {  
+        return pictureFileName;    
+    }
+
+    public void setPicutreFileName(String pictureFileName) {
+        this.pictureFileName = pictureFileName;
+    }
+  
     @Override
     public String toString() {
         return String.format("User[id:%d, username:%s, expireationDate:%s, remoteIp: %s, enabled: %s]",
