@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta th:include="headtags :: headtags" th:remove="tag" />
+</head>
+
+<body>
+    <div>
+
+        <!-- body content -->
+        <div class="container-fluid">
+            profile
+        </div>
+        <!-- body content -->
+
+        <!-- footer -->
+        <div th:include="footer :: footer" th:remove="tag"></div>
+        <!-- footer -->
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+    //<![CDATA[
+    $(document).ready(function() {
+    });
+    //]]>
+    </script>
+</body>
+
+</html>
