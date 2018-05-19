@@ -1,0 +1,12 @@
+.idea/
+.project
+.classpath
+.settings/*
+.svn
+/target
+sodexo-common.iml
+/sodexocommon.test.1.log
+/sodexocommon.test.2.log
+/sodexocommon.test.log
+/sodexo-schema
+/nb-configuration.xml
