@@ -17,5 +17,5 @@ public interface UserRepository extends BaseRepository<User>, Repository<User, L
     @Query("SELECT user FROM User user LEFT JOIN FETCH user.roles r LEFT JOIN FETCH r.permissions p WHERE user.username = :username")
     User findByUsername(@Param("username") String username);
     
-    List<User> findByRolesName(String roleName);
+    List<User> findByRolesNameAndEnabledTrue(String roleName);
 }

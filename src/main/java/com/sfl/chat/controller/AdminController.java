@@ -113,4 +113,12 @@ public class AdminController {
         }
     }
 
+    @RequestMapping(value = "/admin/profiles/delete/{id}", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyAuthority('profile_delete')")
+    public String profileUpdate(@PathVariable("id") Long id) {
+        User user = userService.findById(id);
+        user.setEnabled(false);
+        userService.save(user);
+        return "redirect:/admin/profile";    
+    }
 }

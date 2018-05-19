@@ -69,7 +69,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @Override
     @Transactional(readOnly = true)
     public List<User> findByRoleName(String roleName) {
-        return userRepository.findByRolesName(roleName);
+        return userRepository.findByRolesNameAndEnabledTrue(roleName);
     }
 
 }
