@@ -10,6 +10,13 @@
 
         <!-- body content -->
         <div class="container-fluid">
+
+            <div class="scrollmenu">
+              <a href="admin" th:href="@{/admin}">Admin</a>
+              <a href="profile" th:href="@{/profile}">User</a>
+            <a href="signin" th:href="@{/signin}" th:unless="${(#authentication != null) and #authorization.expression('isAuthenticated()')}" th:text="#{menu.signin}">Signin</a>
+            </div>
+
         <div>
             <span th:switch="${(#authentication != null) and #authorization.expression('isAuthenticated()')}">
             <span th:case="true" th:text="${#authentication.name}">User name</span>

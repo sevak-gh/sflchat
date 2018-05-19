@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta th:include="headtags :: headtags" th:remove="tag" />
+</head>
+
+<body>
+    <div>
+
+        <!-- body content -->
+        <div class="container-fluid">
+
+            <div class="scrollmenu">
+              <a href="admin/profile" th:href="@{/admin/profile}">User Management</a>
+              <a href="admin/chat" th:href="@{/admin/chat}">Chat Management</a>
+            </div>
+
+            Admin
+        </div>
+        <!-- body content -->
+
+        <!-- footer -->
+        <div th:include="footer :: footer" th:remove="tag"></div>
+        <!-- footer -->
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+    //<![CDATA[
+    $(document).ready(function() {
+    });
+    //]]>
+    </script>
+</body>
+
+</html>
