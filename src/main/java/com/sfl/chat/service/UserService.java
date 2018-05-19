@@ -2,6 +2,8 @@ package com.sfl.chat.service;
 
 import com.sfl.chat.domain.User;
 
+import java.util.List;
+
 /**
  * service interface for User.
  *
@@ -9,4 +11,5 @@ import com.sfl.chat.domain.User;
  */
 public interface UserService extends BaseService<User> {
     public User findByUsername(String username);
+    public List<User> findByRoleName(String roleName);
 }

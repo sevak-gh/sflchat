@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta th:include="headtags :: headtags" th:remove="tag" />
+</head>
+
+<body>
+    <div>
+
+        <!-- body content -->
+        <div class="container-fluid">
+
+                     <table class="table table-bordered table-striped">
+                                    <thead class="bg-info">
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>FirstName</th>
+                                            <th>LastName</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="user : ${users}">
+                                            <td>
+                                                <a href="#" th:href="@{|/admin/profiles/${user.id}|}" th:text="${user.username}">username</a>
+                                            </td>
+                                            <td th:text="${user.firstName}">First Name</td>
+                                            <td th:text="${user.lastName}">Last Name</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+            Hello
+        </div>
+        <!-- body content -->
+
+        <!-- footer -->
+        <div th:include="footer :: footer" th:remove="tag"></div>
+        <!-- footer -->
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+    //<![CDATA[
+    $(document).ready(function() {
+    });
+    //]]>
+    </script>
+</body>
+
+</html>

@@ -7,6 +7,7 @@ import com.sfl.chat.repository.UserRepository;
 import com.sfl.chat.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,4 +65,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findByRoleName(String roleName) {
+        return userRepository.findByRolesName(roleName);
+    }
+
 }
