@@ -11,8 +11,10 @@
         <!-- body content -->
         <div class="container-fluid">
         <p> profile </p>
-        <span th:text="${user.firstName}"></span>        
-        <span th:text="${user.lastName}"></span>
+        <img src="#" alt="profile picture" th:src="${picurl}" 
+            style="max-height:150px; max-width:150px" />
+        <p th:text="${user.firstName}"></p>        
+        <p th:text="${user.lastName}"></p>
         
         </div>
         <!-- body content -->
