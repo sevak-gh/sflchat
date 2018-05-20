@@ -2,6 +2,7 @@ package com.sfl.chat.controller;
 
 import com.sfl.chat.service.UserService;
 import com.sfl.chat.service.ChatMessageService;
+import com.sfl.chat.service.ChatRoomService;
 import com.sfl.chat.dto.ChatMessageDto;
 import com.sfl.chat.domain.ChatMessage;
 import com.sfl.chat.domain.User;
@@ -44,12 +45,15 @@ public class ChatController {
 
     private final UserService userService;
     private final ChatMessageService chatMessageService;
+    private final ChatRoomService chatRoomService;
 
     @Autowired
     public ChatController(UserService userService,
-                          ChatMessageService chatMessageService) {
+                          ChatMessageService chatMessageService,
+                          ChatRoomService chatRoomService) {
         this.userService = userService;
         this.chatMessageService = chatMessageService;
+        this.chatRoomService = chatRoomService;
     }
 
     @MessageMapping("/message")
@@ -59,8 +63,7 @@ public class ChatController {
 
         // save chat message
         User user = userService.findByUsername(chatMessageDto.getSender());
-        ChatRoom chatRoom = new ChatRoom();
-        chatRoom.setId(DEFAULT_CHAT_ROOM_ID);
+        ChatRoom chatRoom = chatRoomService.findById(DEFAULT_CHAT_ROOM_ID);
         ChatMessage message = new ChatMessage();
         message.setContent(chatMessageDto.getContent());
         message.setChatRoom(chatRoom);
@@ -69,6 +72,13 @@ public class ChatController {
         chatMessageService.save(message);
 
         // check message for bad words
+        // if message contains badword, do not broadcast
+        // set message deleted
+        if (chatMessageDto.getContent().contains(chatRoom.getBadWord())) {
+            message.setDeleted(true);
+            chatMessageService.save(message);
+            return null;
+        }        
 
         // broadcast message to chat room users
         return chatMessageDto;

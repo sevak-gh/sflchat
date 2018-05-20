@@ -26,6 +26,10 @@ public class ChatRoom extends BaseEntity {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    @Size(max = 100)
+    @Column(name = "bad_word", nullable = true, length = 100)
+    private String badWord;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "chat_room_user",
             joinColumns = {@JoinColumn(name = "fk_chat_room", nullable = false)},
@@ -46,5 +50,13 @@ public class ChatRoom extends BaseEntity {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public String getBadWord() {
+        return badWord;    
+    }
+
+    public void setBadWord(String badWord) {
+        this.badWord = badWord;
     }
 }

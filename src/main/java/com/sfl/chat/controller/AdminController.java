@@ -83,6 +83,15 @@ public class AdminController {
         return "adminChatMessage";
     }
 
+    @RequestMapping(value = "/admin/chat/badword", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyAuthority('admin_chat')")
+    public String chatBadWord(@RequestParam("badWord") String badWord) {
+        ChatRoom chatRoom = chatRoomService.findById(DEFAULT_CHAT_ROOM_ID);
+        chatRoom.setBadWord(badWord);
+        chatRoomService.save(chatRoom);
+        return "redirect:/admin";
+    }
+
     @RequestMapping(value = "/admin/chat/user", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('admin_chat')")
     public String adminChatUser(Model model) {

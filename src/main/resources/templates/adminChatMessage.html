@@ -15,6 +15,23 @@
             <span th:text="${chatRoom.name}"></span>
         </p>
         <hr />
+        <div>
+            <form action="#" th:action="@{|/admin/chat/badword|}" method="post" class="well container form-horizontal">
+                <div class="form-group ">
+                    <label class="col-sm-3 required control-label" for="badword">BadWord</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="badWord" id="badWord" class="form-control input-sm" th:value="${chatRoom.badWord}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 left">
+                        <hr/>
+                        <input type="submit" class="btn btn-info" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
                     <table class="table table-bordered table-striped">
                                     <thead class="bg-info">
                                         <tr>
