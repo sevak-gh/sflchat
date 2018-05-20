@@ -63,7 +63,7 @@ public class ChatController {
 
         // save chat message
         User user = userService.findByUsername(chatMessageDto.getSender());
-        ChatRoom chatRoom = chatRoomService.findById(DEFAULT_CHAT_ROOM_ID);
+        ChatRoom chatRoom = chatRoomService.findByIdWithUsers(DEFAULT_CHAT_ROOM_ID);
         ChatMessage message = new ChatMessage();
         message.setContent(chatMessageDto.getContent());
         message.setChatRoom(chatRoom);
@@ -72,11 +72,18 @@ public class ChatController {
         chatMessageService.save(message);
 
         // check message for bad words
-        // if message contains badword, do not broadcast
-        // set message deleted
+        // if message contains badword, do not broadcast, set message deleted
+        // remove sender from chat room
         if (chatMessageDto.getContent().contains(chatRoom.getBadWord())) {
+
+            // set message deleted
             message.setDeleted(true);
             chatMessageService.save(message);
+
+            // remove sender from chat room
+            chatRoom.getUsers().remove(user);
+            chatRoomService.save(chatRoom);            
+            
             return null;
         }        
 
