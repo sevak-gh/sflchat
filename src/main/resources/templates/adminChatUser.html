@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta th:include="headtags :: headtags" th:remove="tag" />
+</head>
+
+<body>
+    <div>
+
+        <!-- body content -->
+        <div class="container-fluid">
+
+        <p>
+            <span th:text="${chatRoom.name}"></span>
+        </p>
+        <hr />
+                    <table class="table table-bordered table-striped">
+                                    <thead class="bg-info">
+                                        <tr>
+                                            <th>username</th>
+                                            <th>Name</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="user : ${chatRoom.users}">
+                                            <td th:text="${user.username}">username</td>
+                                            <td th:text="${user.firstName} + ' ' + ${user.lastName}">name</td>
+                                            <td>
+                                                <form action="#" th:action="@{|/admin/chat/${chatRoom.id}/user/remove/${user.id}|}" method="post">
+                                                    <input class="delete" type="submit" value="Remove"/>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+        </div>
+        <!-- body content -->
+
+        <!-- footer -->
+        <div th:include="footer :: footer" th:remove="tag"></div>
+        <!-- footer -->
+    </div>
+    <script src="../static/js/jquery-3.min.js" th:src="@{/js/jquery-3.min.js}"></script>
+    <script src="../static/js/adminChatUser.js" th:src="@{/js/adminChatUser.js}"></script>
+</body>
+
+</html>

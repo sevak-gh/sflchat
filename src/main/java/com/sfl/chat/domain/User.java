@@ -198,4 +198,28 @@ public class User extends BaseEntity implements UserDetails  {
         return String.format("User[id:%d, username:%s, expireationDate:%s, remoteIp: %s, enabled: %s]",
                 id, username, expirationDate, remoteIp, String.valueOf(enabled));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof User)) {
+            return false;
+        }
+        User user = (User) other;
+        if (this.id == user.id) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        if (id != null) {
+            result = (31 * result) + id.hashCode();
+        }
+        return result;
+    }
 }

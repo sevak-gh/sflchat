@@ -86,6 +86,10 @@ public class AdminController {
     @RequestMapping(value = "/admin/chat/user", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('admin_chat')")
     public String adminChatUser(Model model) {
+        ChatRoom chatRoom = chatRoomService.findByIdWithUsers(DEFAULT_CHAT_ROOM_ID);
+        LOG.debug("chat room users: {}", chatRoom.getUsers());
+        LOG.debug("chat room users count: {}", chatRoom.getUsers().size());
+        model.addAttribute("chatRoom", chatRoom);
         return "adminChatUser";
     }
 
@@ -171,6 +175,18 @@ public class AdminController {
         message.setDeleted(true);
         chatMessageService.save(message);
         return "redirect:/admin/chat/message";    
+    }
+
+    @RequestMapping(value = "/admin/chat/{chatroomid}/user/remove/{userid}", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyAuthority('admin_chat')")
+    public String removeUser(@PathVariable("chatroomid") Long chatRoomId, 
+                             @PathVariable("userid") Long userId) {
+        ChatRoom chatRoom = chatRoomService.findByIdWithUsers(chatRoomId);
+        User user = new User();
+        user.setId(userId);
+        chatRoom.getUsers().remove(user);
+        chatRoomService.save(chatRoom);        
+        return "redirect:/admin/chat/user";    
     }
 
 }

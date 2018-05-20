@@ -24,4 +24,11 @@ public class ChatRoomServiceImpl extends BaseServiceImpl<ChatRoom> implements Ch
     super(chatRoomRepository);
     this.chatRoomRepository = chatRoomRepository;
   }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ChatRoom findByIdWithUsers(Long id) {
+        return chatRoomRepository.findByIdWithUsers(id).orElse(null);
+    }
+
 }
