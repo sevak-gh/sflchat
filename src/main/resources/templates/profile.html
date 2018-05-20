@@ -15,6 +15,27 @@
             style="max-height:150px; max-width:150px" />
         <p th:text="${user.firstName}"></p>        
         <p th:text="${user.lastName}"></p>
+
+        <div id="chat">
+        </div>
+
+         <form id="messageForm" class="well container form-horizontal">
+                <div class="form-group ">
+                    <label class="col-sm-3 required control-label" for="message">Message
+                    </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="message" class="form-control input-sm" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12 left">
+                        <hr/>
+                        <button type="submit" class="btn btn-info">Send</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+       
         
         </div>
         <!-- body content -->
@@ -23,12 +44,10 @@
         <div th:include="footer :: footer" th:remove="tag"></div>
         <!-- footer -->
     </div>
-    <script type="text/javascript" th:inline="javascript">
-    //<![CDATA[
-    $(document).ready(function() {
-    });
-    //]]>
-    </script>
+    <script src="../static/js/jquery-3.min.js" th:src="@{/js/jquery-3.min.js}"></script>
+    <script src="../static/js/sockjs.min.js" th:src="@{/js/sockjs.min.js}"></script>
+    <script src="../static/js/stomp.min.js" th:src="@{/js/stomp.min.js}"></script>
+    <script src="../static/js/profile.js" th:src="@{/js/profile.js}"></script>
 </body>
 
 </html>

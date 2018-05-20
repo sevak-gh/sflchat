@@ -42,6 +42,6 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     @Override
     @Transactional(readOnly = true)
     public T findById(Long id) {
-        return repository.findById(id);
+        return repository.findById(id).orElse(null);
     }
 }

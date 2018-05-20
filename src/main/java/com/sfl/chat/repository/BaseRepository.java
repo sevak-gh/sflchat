@@ -1,6 +1,7 @@
 package com.sfl.chat.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * base repository for domain objects.
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public interface BaseRepository<T> {
     List<T> findAll();
-    T findById(Long id);
+    Optional<T> findById(Long id);
     T save(T entity);
     Long count();
 }
