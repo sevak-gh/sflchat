@@ -18,7 +18,7 @@ function onMessageReceived(payload) {
     var chatMessage = JSON.parse(payload.body);
     //alert("message: " + chatMessage);
     //alert("content: " + chatMessage.content);
-    $("#chat").append("<p>" + chatMessage.content + "</p>");    
+    $("#chat").append("<p>" + chatMessage.sender + " -> " + chatMessage.content + "</p>");    
 }
 
 $(document).ready(function() {    
@@ -28,7 +28,8 @@ $(document).ready(function() {
         var messageContent = $("#message").val().trim();
         if (stompClient && messageContent) {
             var chatMessage = {
-                content: messageContent
+                content: messageContent,
+                sender: username                
             };
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
             $("#message").val("");
