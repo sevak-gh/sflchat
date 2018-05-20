@@ -3,7 +3,9 @@ package com.sfl.chat.controller;
 import com.sfl.chat.domain.User;
 import com.sfl.chat.service.UserService;
 import com.sfl.chat.domain.ChatMessage;
+import com.sfl.chat.domain.ChatRoom;
 import com.sfl.chat.service.ChatMessageService;
+import com.sfl.chat.service.ChatRoomService;
 
 import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +37,15 @@ public class ProfileController {
 
     private final UserService userService;
     private final ChatMessageService chatMessageService;
+    private final ChatRoomService chatRoomService;
 
     @Autowired
     public ProfileController(UserService userService,
-                             ChatMessageService chatMessageService) {
+                             ChatMessageService chatMessageService,
+                             ChatRoomService chatRoomService) {
         this.userService = userService;
         this.chatMessageService = chatMessageService;
+        this.chatRoomService = chatRoomService;
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -55,11 +60,15 @@ public class ProfileController {
                          .toUriString();
 
         List<ChatMessage> messages = chatMessageService.findByChatRoomIdAndDeletedFalse(DEFAULT_CHAT_ROOM_ID);
-        LOG.debug("messages: {}", messages);
-        LOG.debug("messages count: {}", messages.size());
+        ChatRoom chatRoom = chatRoomService.findByIdWithUsers(DEFAULT_CHAT_ROOM_ID);
+        boolean userInChatRoom = true;
+        if (!chatRoom.getUsers().contains(user)) {
+            userInChatRoom = false;
+        }
         model.addAttribute("user", user);
         model.addAttribute("picurl", pictureUrl);
         model.addAttribute("messages", messages);
+        model.addAttribute("userInChatRoom", userInChatRoom);
         return "profile";
     }
 }

@@ -2,9 +2,12 @@
 var stompClient = null;
 
 function connect() {
-    var socket = new SockJS('/ws');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, onConnected);
+    // connect to websocket endpoint if user is in chat room        
+    if (userInChatRoom) {
+        var socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, onConnected);
+    }        
 }
 
 function onConnected() {
