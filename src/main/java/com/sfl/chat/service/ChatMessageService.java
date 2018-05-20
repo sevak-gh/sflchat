@@ -10,4 +10,5 @@ import java.util.List;
  * @author Sevak Gharibian
  */
 public interface ChatMessageService extends BaseService<ChatMessage> {
+    List<ChatMessage> findByChatRoomIdAndDeletedFalse(Long chatRoomId);
 }

@@ -18,7 +18,7 @@ function onMessageReceived(payload) {
     var chatMessage = JSON.parse(payload.body);
     //alert("message: " + chatMessage);
     //alert("content: " + chatMessage.content);
-    $("#chat").append("<p>" + chatMessage.sender + " -> " + chatMessage.content + "</p>");    
+    $("#chat").append("<p>" + chatMessage.sender + " : " + chatMessage.content + "</p>");    
 }
 
 $(document).ready(function() {    

@@ -16,7 +16,15 @@
         <p th:text="${user.firstName}"></p>        
         <p th:text="${user.lastName}"></p>
 
-        <div id="chat">
+        <hr />
+
+        <div id="chat" style="border: 2px solid red;">
+            <th:block th:each="msg : ${messages}">
+                <p>
+                    <span th:text="${msg.sender.username}" /> : <span th:text="${msg.content}"/>
+                </p>
+                <br/>
+            </th:block>
         </div>
 
          <form id="messageForm" class="well container form-horizontal">

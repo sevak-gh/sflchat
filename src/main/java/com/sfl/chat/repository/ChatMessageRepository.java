@@ -14,4 +14,8 @@ import org.springframework.data.repository.Repository;
  * @author Sevak Gharibian
  */
 public interface ChatMessageRepository extends BaseRepository<ChatMessage>, Repository<ChatMessage, Long> {
+    @Query("SELECT chatMessage FROM ChatMessage chatMessage LEFT JOIN FETCH chatMessage.sender "
+           + "LEFT JOIN FETCH chatMessage.chatRoom chatRoom " 
+           + "WHERE chatMessage.deleted = false AND chatRoom.id = :chatRoomId")
+    List<ChatMessage> findByChatRoomIdAndDeletedFalse(@Param("chatRoomId") Long chatRoomId);
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta th:include="headtags :: headtags" th:remove="tag" />
+</head>
+
+<body>
+    <div>
+
+        <!-- body content -->
+        <div class="container-fluid">
+
+        <p>
+            <span th:text="${chatRoom.name}"></span>
+        </p>
+        <hr />
+                    <table class="table table-bordered table-striped">
+                                    <thead class="bg-info">
+                                        <tr>
+                                            <th>Content</th>
+                                            <th>Sender</th>
+                                            <th>DateTime</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="message : ${messages}">
+                                            <td th:text="${message.content}">Content</td>
+                                            <td th:text="${message.Sender.username}">Sender</td>
+                                            <td th:text="${message.createdDateTime}">DateTime</td>
+                                            <td>
+                                                <form action="#" th:action="@{|/admin/messages/delete/${message.id}|}" method="post">
+                                                    <input class="delete" type="submit" value="Delete"/>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+            Hello
+        </div>
+        <!-- body content -->
+
+        <!-- footer -->
+        <div th:include="footer :: footer" th:remove="tag"></div>
+        <!-- footer -->
+    </div>
+    <script src="../static/js/jquery-3.min.js" th:src="@{/js/jquery-3.min.js}"></script>
+    <script src="../static/js/adminChatMessage.js" th:src="@{/js/adminChatMessage.js}"></script>
+</body>
+
+</html>

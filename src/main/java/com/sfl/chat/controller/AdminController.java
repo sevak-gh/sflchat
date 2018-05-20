@@ -1,8 +1,12 @@
 package com.sfl.chat.controller;
 
 import com.sfl.chat.domain.User;
+import com.sfl.chat.domain.ChatMessage;
+import com.sfl.chat.domain.ChatRoom;
 import com.sfl.chat.domain.Role;
 import com.sfl.chat.service.UserService;
+import com.sfl.chat.service.ChatMessageService;
+import com.sfl.chat.service.ChatRoomService;
 import com.sfl.chat.dto.ProfileDto;
 
 import java.util.List;
@@ -39,13 +43,20 @@ public class AdminController {
     private static final long USER_ROLE_ID = 1L;
     private static final long PROFILE_PICTURE_MAX_FILE_SIZE = 1024 * 1024;
     private static final String PROFILE_PICTURE_UPLOAD_PATH = "/opt/sflchat/resources/pictures/";
+    private static final long DEFAULT_CHAT_ROOM_ID = 1L;
 
 
     private final UserService userService;
+    private final ChatMessageService chatMessageService;
+    private final ChatRoomService chatRoomService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService,
+                           ChatMessageService chatMessageService,
+                           ChatRoomService chatRoomService) {
         this.userService = userService;
+        this.chatMessageService = chatMessageService;
+        this.chatRoomService = chatRoomService;
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -62,10 +73,20 @@ public class AdminController {
         return "adminProfile";
     }
 
-    @RequestMapping(value = "/admin/chat", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/chat/message", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('admin_chat')")
-    public String adminChat(Model model) {
-        return "adminChat";
+    public String adminChatMessage(Model model) {
+        ChatRoom chatRoom = chatRoomService.findById(DEFAULT_CHAT_ROOM_ID);
+        List<ChatMessage> messages = chatMessageService.findByChatRoomIdAndDeletedFalse(DEFAULT_CHAT_ROOM_ID);
+        model.addAttribute("chatRoom", chatRoom);
+        model.addAttribute("messages", messages);
+        return "adminChatMessage";
+    }
+
+    @RequestMapping(value = "/admin/chat/user", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('admin_chat')")
+    public String adminChatUser(Model model) {
+        return "adminChatUser";
     }
 
     @RequestMapping(value = "/admin/profiles/{id}", method = RequestMethod.GET)
@@ -92,20 +113,6 @@ public class AdminController {
             user.setFirstName(profile.getFirstName());
             user.setLastName(profile.getLastName());
 
-            // check file size
-//            if (file.getSize() > PROFILE_PICTURE_MAX_FILE_SIZE) {
-//                return "admin/profile/" + String.valueOf(id);
-//            }
-
-
-            // extract file extension
-//            LOG.debug("profile file: {}", file.getOriginalFilename());
-//            String[] tokens = file.getOriginalFilename().split("\\.");
-//            LOG.debug("profile file tokens: {}", tokens.toString());
-//            String extension = "jpg";
-//            if ((tokens == null) || (tokens.length != 2)) {
-//                extension = tokens[1];
-//            }
 
         // save file
         String fileName = String.format("%d_%s", id, file.getOriginalFilename());
@@ -125,7 +132,7 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/profile/create", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('profile_create')")
-    public String createView(Model model) {
+    public String profileCreateView(Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return "profileCreate";
@@ -133,7 +140,7 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/profile/create", method = RequestMethod.POST)
     @PreAuthorize("hasAnyAuthority('profile_create')")
-    public String profileUpdate(@ModelAttribute("user") @Valid User user, BindingResult result) {
+    public String profileCreate(@ModelAttribute("user") @Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "profileCreate";
         } else {            
@@ -150,10 +157,20 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/profiles/delete/{id}", method = RequestMethod.POST)
     @PreAuthorize("hasAnyAuthority('profile_delete')")
-    public String profileUpdate(@PathVariable("id") Long id) {
+    public String profileDelete(@PathVariable("id") Long id) {
         User user = userService.findById(id);
         user.setEnabled(false);
         userService.save(user);
         return "redirect:/admin/profile";    
     }
+
+    @RequestMapping(value = "/admin/messages/delete/{id}", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyAuthority('admin_chat')")
+    public String messageDelete(@PathVariable("id") Long id) {
+        ChatMessage message = chatMessageService.findById(id);
+        message.setDeleted(true);
+        chatMessageService.save(message);
+        return "redirect:/admin/chat/message";    
+    }
+
 }

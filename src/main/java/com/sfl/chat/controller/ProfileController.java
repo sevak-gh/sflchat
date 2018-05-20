@@ -2,9 +2,12 @@ package com.sfl.chat.controller;
 
 import com.sfl.chat.domain.User;
 import com.sfl.chat.service.UserService;
+import com.sfl.chat.domain.ChatMessage;
+import com.sfl.chat.service.ChatMessageService;
 
 import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,16 +31,21 @@ public class ProfileController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProfileController.class);
 
+    private static final long DEFAULT_CHAT_ROOM_ID = 1L;
+
     private final UserService userService;
+    private final ChatMessageService chatMessageService;
 
     @Autowired
-    public ProfileController(UserService userService) {
+    public ProfileController(UserService userService,
+                             ChatMessageService chatMessageService) {
         this.userService = userService;
+        this.chatMessageService = chatMessageService;
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('profile_view')")
-    public String view(Model model, Principal principal, HttpServletRequest request) {
+    public String view(Model model, Principal principal, HttpServletRequest request) {        
         User user = userService.findByUsername(principal.getName());
         // get picture url
         String  pictureUrl = ServletUriComponentsBuilder
@@ -45,9 +53,13 @@ public class ProfileController {
                          .path("/pictures/" + user.getPictureFileName())
                          .build()
                          .toUriString();
-        LOG.debug("picture url path: {}", pictureUrl);
+
+        List<ChatMessage> messages = chatMessageService.findByChatRoomIdAndDeletedFalse(DEFAULT_CHAT_ROOM_ID);
+        LOG.debug("messages: {}", messages);
+        LOG.debug("messages count: {}", messages.size());
         model.addAttribute("user", user);
         model.addAttribute("picurl", pictureUrl);
+        model.addAttribute("messages", messages);
         return "profile";
     }
 }

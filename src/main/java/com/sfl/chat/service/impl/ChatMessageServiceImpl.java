@@ -4,6 +4,8 @@ import com.sfl.chat.domain.ChatMessage;
 import com.sfl.chat.repository.ChatMessageRepository;
 import com.sfl.chat.service.ChatMessageService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,4 +26,10 @@ public class ChatMessageServiceImpl extends BaseServiceImpl<ChatMessage> impleme
     super(chatMessageRepository);
     this.chatMessageRepository = chatMessageRepository;
   }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ChatMessage> findByChatRoomIdAndDeletedFalse(Long chatRoomId) {
+        return chatMessageRepository.findByChatRoomIdAndDeletedFalse(chatRoomId);
+    }
 }
