@@ -155,6 +155,10 @@ public class AdminController {
             role.setId(USER_ROLE_ID);
             user.getRoles().add(role);
             userService.save(user);
+            // add user to default chat room        
+            ChatRoom chatRoom = chatRoomService.findByIdWithUsers(DEFAULT_CHAT_ROOM_ID);
+            chatRoom.getUsers().add(user);
+            chatRoomService.save(chatRoom);
             return "redirect:/admin/profile";
         }
     }
