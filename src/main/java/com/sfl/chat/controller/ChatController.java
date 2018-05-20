@@ -1,12 +1,17 @@
 package com.sfl.chat.controller;
 
 import com.sfl.chat.service.UserService;
-import com.sfl.chat.dto.ChatMessage;
+import com.sfl.chat.service.ChatMessageService;
+import com.sfl.chat.dto.ChatMessageDto;
+import com.sfl.chat.domain.ChatMessage;
+import com.sfl.chat.domain.User;
+import com.sfl.chat.domain.ChatRoom;
 
 import java.util.List;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,18 +40,38 @@ public class ChatController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChatController.class);
 
+    private static final long DEFAULT_CHAT_ROOM_ID = 1L;
+
     private final UserService userService;
+    private final ChatMessageService chatMessageService;
 
     @Autowired
-    public ChatController(UserService userService) {
+    public ChatController(UserService userService,
+                          ChatMessageService chatMessageService) {
         this.userService = userService;
+        this.chatMessageService = chatMessageService;
     }
 
     @MessageMapping("/message")
     @SendTo("/topic/chatroom")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+    public ChatMessageDto sendMessage(@Payload ChatMessageDto chatMessageDto) {
         // chat room message handling here
-        return chatMessage;
+
+        // save chat message
+        User user = userService.findByUsername(chatMessageDto.getSender());
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.setId(DEFAULT_CHAT_ROOM_ID);
+        ChatMessage message = new ChatMessage();
+        message.setContent(chatMessageDto.getContent());
+        message.setChatRoom(chatRoom);
+        message.setSender(user);
+        message.setCreatedDateTime(LocalDateTime.now());
+        chatMessageService.save(message);
+
+        // check message for bad words
+
+        // broadcast message to chat room users
+        return chatMessageDto;
     }
 }
 

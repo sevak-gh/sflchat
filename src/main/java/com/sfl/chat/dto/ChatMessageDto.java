@@ -5,7 +5,7 @@ package com.sfl.chat.dto;
  *
  * @author Sevak Gharibian
  */
-public class ChatMessage {
+public class ChatMessageDto {
 
     private String content;
     private String sender;

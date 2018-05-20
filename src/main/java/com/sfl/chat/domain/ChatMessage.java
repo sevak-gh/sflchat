@@ -39,6 +39,9 @@ public class ChatMessage extends BaseEntity {
     @Column(name = "created_date_time", nullable = false)
     private LocalDateTime createdDateTime;
 
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
+
     public String getContent() {
         return content;
     }
@@ -69,5 +72,13 @@ public class ChatMessage extends BaseEntity {
 
     public void setCreatedDateTime(LocalDateTime createdDateTime) {
         this.createdDateTime = createdDateTime;
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
