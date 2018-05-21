@@ -46,10 +46,9 @@ public class SecureConfig extends WebSecurityConfigurerAdapter {
             .usernameParameter("username")
             .passwordParameter("password")
             .loginPage("/signin")
-            .loginProcessingUrl("/signin");
-            //.defaultSuccessUrl("/homepage.html")
-            //.failureUrl("/login.html?error=true")
-            //.and()
-            //.logout().logoutSuccessUrl("/login.html");
+            .loginProcessingUrl("/signin")
+            .and()
+            .logout()
+                .logoutUrl("/signout");
     }
 }

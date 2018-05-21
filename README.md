@@ -116,7 +116,7 @@ SFL chat service
         user will send and receive messages until sign out.        
 
 
-   Usee: 
+   User: 
     users can sign in with their username/password, set by admin during user creation.
 
 ** please note that users can also sign in through their google account, if the username

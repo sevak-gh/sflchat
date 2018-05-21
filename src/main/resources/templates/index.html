@@ -22,6 +22,7 @@
             <span th:case="true" th:text="${#authentication.name}">User name</span>
             </span>
             <a href="signin" th:href="@{/signin}" th:unless="${(#authentication != null) and #authorization.expression('isAuthenticated()')}" th:text="#{menu.signin}">Signin</a>
+            <a href="signout" th:href="@{/signout}" th:if="${(#authentication != null) and #authorization.expression('isAuthenticated()')}" th:text="#{menu.signout}">Signout</a>
         </div>
             Hello
         </div>
