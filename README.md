@@ -53,6 +53,54 @@ SFL chat service
 
 ** you can check the logs in your current directory where you run the application in a file named "sflchat.log". 
 
+
+- How to use the application:
+
+  you can see two links in the home page:
+    - Admin: you can find the administration functionalities here 
+    - User: normal users sign in from here to their profile page.
+
+  Admin:
+   there is a one defualt admin user with the following credentials:
+   username: admin  
+   password: 123456
+
+   you can sign in as admin with the above credentials.
+   
+   after sign in you will be directed to admin home page where you can find three links:
+    - User Management : you can see the list of users, create a new user, delete user, update user profile
+    - Chat Message Management : you can see the list chat messages, delete a message, set chat room bad word
+    - Chat User Management : you can see the chat room users, remove user from chat room
+
+
+   User: 
+    users can sign in with their username/password, set by admin during user creation.
+
+** please note that users can also sign in through their google account, if the username
+   is set to their gmail account name, such as sevak.gharibian@gmail.com, by admin.
+
+    there is one profile page for users where there can see the prfile information
+    such as frist_name, last_name, profile_picture.
+
+    in the profile page, there is the chat room messages section where users can see
+    the history of messages and online messages sent by all chat room users.
+
+    at the bottom there is text input where user can enter the text and send message to chat room.
+    all online users will receive the message immediately and those sign in later will see in the history.
+    all messages are saved in database.
+
+
+    
+    
+
+        
+
+    
+   
+
+  
+   
+
    
 
  
